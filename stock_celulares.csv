@@ -1,0 +1,64 @@
+Marca;Modelo;Cantidad;Precio;Almacenamiento;Anio_de_lanzamiento
+Iphone;15 Pro Max;5;1199;512;2023
+Iphone;15 Pro ;7;1099;512;2023
+Iphone;15 Plus;8;999;512;2023
+Iphone;15;10;899;512;2023
+Iphone;14 Pro Max;0;999;512;2022
+Iphone;14 Pro;2;899;512;2022
+Iphone;14;15;800;512;2022
+Samsung;Galaxy S23;10;499;512;2023
+Samsung;Galaxy S23 +;14;1099;512;2023
+Samsung;Galaxy S23 Ultra;20;1199;512;2023
+Samsung;Galaxy S22 ;2;399;512;2022
+Samsung;Galaxy S22 +;0;899;512;2022
+Samsung;Galaxy S22 Ultra;4;999;512;2022
+Xiaomi;13 Pro;15;1199;512;2023
+Xiaomi;13 Lite;25;1099;512;2023
+Xiaomi;13;30;799;512;2023
+Xiaomi;12 Pro;6;999;512;2022
+Xiaomi;12 Lite;3;899;512;2022
+Xiaomi;12;1;599;512;2022
+Iphone;15 Pro Max;20;1199;256;2023
+Iphone;15 Pro ;2;1099;256;2023
+Iphone;15 Plus;20;999;256;2023
+Iphone;15;0;999;256;2023
+Iphone;14 Pro Max;3;999;256;2022
+Iphone;14 Pro;2;899;256;2022
+Iphone;14;4;699;256;2022
+Samsung;Galaxy S23;10;499;256;2023
+Samsung;Galaxy S23 +;0;1099;256;2023
+Samsung;Galaxy S23 Ultra;20;1199;256;2023
+Samsung;Galaxy S22 ;2;399;256;2022
+Samsung;Galaxy S22 +;10;899;256;2022
+Samsung;Galaxy S22 Ultra;4;999;256;2022
+Xiaomi;13 Pro;15;1199;256;2023
+Xiaomi;13 Lite;3;1099;256;2023
+Xiaomi;13;19;799;256;2023
+Xiaomi;12 Pro;6;999;256;2022
+Xiaomi;12 Lite;3;899;256;2022
+Xiaomi;12;1;599;256;2022
+Iphone;15 Pro Max;10;1099;128;2023
+Iphone;15 Pro ;3;999;128;2023
+Iphone;15 Plus;0;899;128;2023
+Iphone;15;2;799;128;2023
+Iphone;14 Pro Max;3;899;128;2022
+Iphone;14 Pro;20;799;128;2022
+Iphone;14;13;699;128;2022
+Samsung;Galaxy S23;2;399;128;2023
+Samsung;Galaxy S23 +;4;999;128;2023
+Samsung;Galaxy S23 Ultra;0;1099;128;2023
+Samsung;Galaxy S22;10;299;128;2022
+Samsung;Galaxy S22 +;27;899;128;2022
+Samsung;Galaxy S22 Ultra;12;999;128;2022
+Xiaomi;13 Pro;3;1099;128;2023
+Xiaomi;13 Lite;5;999;128;2023
+Xiaomi;13;10;699;128;2023
+Xiaomi;12 Pro;13;899;128;2022
+Xiaomi;12 Lite;0;799;128;2022
+Xiaomi;12;1;499;128;2022
+Iphone;16 Pro Max;7;2100;1024;2024
+Iphone;16 pro;2;1900;1024;2024
+Iphone;17 pro;50;2100;1024;2024
+Samsung;s22;0;2300;1024;2024
+Samsung;s24;5;2500;1024;2024
+Xiaomi;12 pro;1;2000;1024;2024
