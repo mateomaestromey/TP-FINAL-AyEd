@@ -1,7 +1,7 @@
 import funciones as fn
 
 
-def main():
+def main() -> None:
         archivo = fn.leer_archivo()
         if archivo:
             while True:
