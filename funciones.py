@@ -1,4 +1,7 @@
-def leer_archivo():
+from typing import List, Tuple
+
+
+def leer_archivo()->List[List[str]]:
     try:
         with open("stock_celulares.csv", "rt", encoding="utf-8-sig") as archivo:
             return [lineas.strip().split(";") for lineas in archivo]
@@ -13,7 +16,7 @@ def leer_archivo():
 
 #explicamos que hace cada uno en el word
 #opcion 1 inicio
-def lista_celulares():
+def lista_celulares() -> dict[int, str]:
     archivo = leer_archivo()
     if archivo:
         equipos = sorted(set(lineas[0] for lineas in archivo[1:]))
@@ -21,7 +24,7 @@ def lista_celulares():
     else:
         return []
     
-def lista_almacenamiento():
+def lista_almacenamiento() -> dict[int, str]:
     archivo = leer_archivo()
     if archivo:
         almacenamientos = sorted(set(lineas[4] for lineas in archivo[1:]))
@@ -29,14 +32,14 @@ def lista_almacenamiento():
     else:
         return []
     
-def modelos_cel(elegido1, elegido2):
+def modelos_cel(elegido1:str, elegido2:str)-> List[List[str]]:
     archivo = leer_archivo()
     if archivo:
         return [elem for elem in archivo[1:] if elem[0] == elegido1 and elem[4] == elegido2]
     else:
         return []
     
-def print_opcion1():
+def print_opcion1()-> None:
     modelos = lista_celulares()
     almacenamientos = lista_almacenamiento()
     encabezado = leer_archivo()[0]
@@ -68,7 +71,7 @@ def print_opcion1():
 #opcion 1 final    
 
 #opcion 2 inicio
-def pedir_validar_producto():
+def pedir_validar_producto()-> List[str]:
     datos = []
     while True:
         try:
@@ -105,7 +108,7 @@ def pedir_validar_producto():
 
     return datos
 
-def agregar_datos():
+def agregar_datos()-> None:
     datos = pedir_validar_producto()
     with open("stock_celulares.csv", 'a',newline='') as archivo_csv:        
         for fila in datos:
@@ -116,13 +119,13 @@ def agregar_datos():
 #opcion 2 final
 
 #opcion 3 incio
-def obtener_conjuntos_unicos(archivo):
+def obtener_conjuntos_unicos(archivo: List[List[str]]) -> Tuple[str, str, str]:
     marcas = set(elem[0] for elem in archivo[1:])
     modelos = set(elem[1] for elem in archivo[1:])
     almacenamientos = set(elem[4] for elem in archivo[1:])
     return marcas, modelos, almacenamientos
     
-def opciones_stock(archivo):
+def opciones_stock(archivo: List[List[str]]) -> None:#como no devuelve nada, solo agrega los datos directamente a modificar stock, le pusimos ->None
     marcas = set(elem[0] for elem in archivo[1:])
     modelos = set(elem[1] for elem in archivo[1:])
     almacenamientos = set(elem[4] for elem in archivo[1:])
@@ -138,7 +141,7 @@ def opciones_stock(archivo):
     modificar_stock(marca_elegida, modelo_elegido, almacenamiento_elegido, archivo)
     
 
-def modificar_stock(marca, modelo, almacenamiento, archivo):
+def modificar_stock(marca: str, modelo: str, almacenamiento: str, archivo: List[List[str]]):
     indice_fila = [i for i, elem in enumerate(archivo[1:]) if elem[0] == marca and elem[1] == modelo and elem[4] == almacenamiento]
     if not indice_fila:
         print("No se encontró el celular con los datos proporcionados.")
@@ -172,7 +175,7 @@ def modificar_stock(marca, modelo, almacenamiento, archivo):
 #opcion 3 final
   
 #opcion 4 incio
-def opciones_precio(archivo):
+def opciones_precio(archivo: List[List[str]]) -> None:
     marcas, modelos, almacenamientos = obtener_conjuntos_unicos(archivo)
     
     marca_elegida = input("Ingrese la marca de celular: ").capitalize()
@@ -185,7 +188,7 @@ def opciones_precio(archivo):
     
     modificar_precio(marca_elegida, modelo_elegido, almacenamiento_elegido,archivo)
 
-def modificar_precio(marca, modelo, almacenamiento, archivo):
+def modificar_precio(marca: str, modelo: str, almacenamiento: str, archivo: List[List[str]]):
     indice_fila = [i for i, elem in enumerate(archivo[1:]) if elem[0] == marca and elem[1] == modelo and elem[4] == almacenamiento]
     if not indice_fila:
         print("No se encontró el celular con los datos proporcionados.")
@@ -216,7 +219,7 @@ def modificar_precio(marca, modelo, almacenamiento, archivo):
 #opcion 4 final
     
 #opcion 5 incio
-def presupuesto(archivo):
+def presupuesto(archivo: List[List[str]]) -> None:
     precios = set(int(elem[3].strip()) for elem in archivo[1:])
     
     while True:
@@ -240,7 +243,7 @@ def presupuesto(archivo):
 #opcion 5 final
 
 #opcion 6 incio
-def compra(archivo):
+def compra(archivo: List[List[str]]) -> None:
     if not archivo:
         print("No se encontró el archivo.")
         return
@@ -326,7 +329,7 @@ def compra(archivo):
         print("Opción de pago no válida.")
 
 
-def efectivo(marca, modelo, almacenamiento, precio):
+def efectivo(marca: str, modelo: str, almacenamiento: str, precio: float) -> None:
     print(f"El celular {marca} {modelo} de {almacenamiento}GB cuesta ${precio}")
     
     while True:
@@ -343,7 +346,7 @@ def efectivo(marca, modelo, almacenamiento, precio):
         except ValueError:
             print("Ingrese un monto válido.")
 
-def tarjeta(marca, modelo, almacenamiento, precio):
+def tarjeta(marca: str, modelo: str, almacenamiento: str, precio: float) -> None:
     print("Procesando pago con tarjeta...")
     while True:
         try:
@@ -364,7 +367,7 @@ def tarjeta(marca, modelo, almacenamiento, precio):
 #opcion 6 final
             
             
-def menu():
+def menu()-> None:
    print(
        "--MENU--\n"
        "1-Especificaciones de Celulares por Marca y Almacenamiento\n"
