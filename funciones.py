@@ -1,45 +1,100 @@
-from typing import List, Tuple
+from typing import List, Dict, Tuple, Set
 
+def leer_archivo() -> List[List[str]]:
+    '''
+    Lee el archivo CSV "stock_celulares.csv" y devuelve una lista de listas con los datos.
 
-def leer_archivo()->List[List[str]]:
+    Precondiciones:
+    - El archivo "stock_celulares.csv" debe existir en la ruta proporcionada, en este caso la carpeta.
+
+    Postcondiciones:
+    - Devuelve una lista de listas con los datos del archivo CSV.
+    - Si el archivo no se encuentra, devuelve una lista vacía.
+    
+    '''
     try:
         with open("stock_celulares.csv", "rt", encoding="utf-8-sig") as archivo:
             return [lineas.strip().split(";") for lineas in archivo]
+        
     except FileNotFoundError:
         print("El archivo no se encontró.")
         return []
+    
     except Exception as e:
         print(f"Ocurrió un error: {e}")
         return []
-    
 
-
-#explicamos que hace cada uno en el word
 #opcion 1 inicio
-def lista_celulares() -> dict[int, str]:
+def lista_celulares() -> Dict[int, str]:
+    '''
+    Obtiene la lista de marcas de celulares que contiene el archivo "stock_celulares.csv".
+
+    Precondiciones:
+    - El archivo "stock_celulares.csv" debe existir y contener datos.
+
+    Postcondiciones:
+    - Devuelve un diccionario donde las claves son números enteros y los valores son marcas de celulares.
+    
+    - Si el archivo no se encuentra o está vacío, devuelve una lista vacía.
+    '''
     archivo = leer_archivo()
+    
     if archivo:
         equipos = sorted(set(lineas[0] for lineas in archivo[1:]))
         return {k: v for k, v in enumerate(equipos)}
     else:
         return []
+
+def lista_almacenamiento() -> Dict[int, str]:
+    '''
+    Obtiene la lista de opciones de almacenamiento que contiene el archivo "stock_celulares.csv".
+
+    Precondiciones:
+    - El archivo "stock_celulares.csv" debe existir y contener datos.
+
+    Postcondiciones:
+    - Devuelve un diccionario donde las claves son números enteros y los valores son opciones de almacenamiento.
     
-def lista_almacenamiento() -> dict[int, str]:
+    - Si el archivo no se encuentra o está vacío, devuelve una lista vacía.
+    '''
     archivo = leer_archivo()
     if archivo:
         almacenamientos = sorted(set(lineas[4] for lineas in archivo[1:]))
         return {k: v for k, v in enumerate(almacenamientos)}
     else:
         return []
-    
-def modelos_cel(elegido1:str, elegido2:str)-> List[List[str]]:
+
+def modelos_cel(elegido1: str, elegido2: str) -> List[List[str]]:
+    '''
+    Filtra los modelos de celulares según la marca y el almacenamiento especificados.
+
+    Precondiciones:
+    - El archivo "stock_celulares.csv" debe existir y contener datos.
+
+    Parámetros:
+    - elegido1: Marca de celular.
+    - elegido2: Almacenamiento del celular.
+
+    Postcondiciones:
+    - Devuelve una lista de listas con los modelos de celulares que coinciden con la marca y el almacenamiento especificados.
+    - Si el archivo no se encuentra o está vacío, devuelve una lista vacía.
+    '''
     archivo = leer_archivo()
     if archivo:
         return [elem for elem in archivo[1:] if elem[0] == elegido1 and elem[4] == elegido2]
     else:
         return []
-    
-def print_opcion1()-> None:
+
+def print_opcion1() -> None:
+    '''
+    Imprime las especificaciones de celulares según la marca y el almacenamiento seleccionados por el usuario.
+
+    Precondiciones:
+    - El archivo "stock_celulares.csv" debe existir y contener datos.
+
+    Postcondiciones:
+    - Imprime las especificaciones de celulares según la marca y el almacenamiento seleccionados por el usuario.
+    '''
     modelos = lista_celulares()
     almacenamientos = lista_almacenamiento()
     encabezado = leer_archivo()[0]
@@ -68,10 +123,16 @@ def print_opcion1()-> None:
             print("Ingrese un numero.")
         else:
             print("No hay modelos disponibles.")
-#opcion 1 final    
-
+#opcion 1 final
+         
 #opcion 2 inicio
-def pedir_validar_producto()-> List[str]:
+def pedir_validar_producto() -> List[str]:
+    '''
+    Solicita y valida los datos de un nuevo producto ingresados por el usuario.
+
+    Postcondiciones:
+    - Devuelve una lista con los datos del nuevo producto ingresados por el usuario.
+   '''
     datos = []
     while True:
         try:
@@ -108,97 +169,158 @@ def pedir_validar_producto()-> List[str]:
 
     return datos
 
-def agregar_datos()-> None:
+def agregar_datos() -> None:
+    '''
+    Agrega nuevos datos de productos al archivo "stock_celulares.csv".
+
+    Postcondiciones:
+    - Agrega nuevos datos de productos al archivo "stock_celulares.csv".
+    
+    - Imprime un mensaje indicando que los datos se han agregado exitosamente.
+    '''
     datos = pedir_validar_producto()
-    with open("stock_celulares.csv", 'a',newline='') as archivo_csv:        
+    with open("stock_celulares.csv", 'a', newline='') as archivo_csv:
         for fila in datos:
             fila_str = ';'.join(fila) + '\n'
             archivo_csv.write(fila_str)
 
     print("Datos agregados al archivo CSV.")
 #opcion 2 final
-
+    
 #opcion 3 incio
-def obtener_conjuntos_unicos(archivo: List[List[str]]) -> Tuple[str, str, str]:
+def obtener_conjuntos_unicos(archivo: List[List[str]]) -> Tuple[Set[str], Set[str], Set[str]]:
+    '''
+    Obtiene conjuntos de datos únicos de marcas, modelos y almacenamientos presentes en el archivo "stock_celulares.csv".
+
+    Precondiciones:
+    - El archivo "stock_celulares.csv" debe existir y contener datos.
+
+    Postcondiciones:
+    - Devuelve conjuntos únicos que representan marcas, modelos y almacenamientos presentes en el archivo.
+    '''
     marcas = set(elem[0] for elem in archivo[1:])
     modelos = set(elem[1] for elem in archivo[1:])
     almacenamientos = set(elem[4] for elem in archivo[1:])
     return marcas, modelos, almacenamientos
+
+def opciones_stock(archivo: List[List[str]]) -> None:
+    '''
+    Permite al usuario modificar el stock de un producto específico en el archivo "stock_celulares.csv".
+
+    Precondiciones:
+    - El archivo "stock_celulares.csv" debe existir y contener datos.
+
+    Postcondiciones:
+    - Modifica el stock de un producto específico en el archivo "stock_celulares.csv" según la elección del usuario.
     
-def opciones_stock(archivo: List[List[str]]) -> None:#como no devuelve nada, solo agrega los datos directamente a modificar stock, le pusimos ->None
+    - Imprime un mensaje indicando que el stock se ha modificado exitosamente.
+    '''
     marcas = set(elem[0] for elem in archivo[1:])
     modelos = set(elem[1] for elem in archivo[1:])
     almacenamientos = set(elem[4] for elem in archivo[1:])
-    
+
     marca_elegida = input("Ingrese la marca de celular: ").capitalize()
     modelo_elegido = input("Ingrese el modelo de celular: ")
     almacenamiento_elegido = input("Ingrese el almacenamiento del celular: ")
-    
+
     if marca_elegida not in marcas or modelo_elegido not in modelos or almacenamiento_elegido not in almacenamientos:
         print("Los datos ingresados no existen en el archivo.")
         return
-    
+
     modificar_stock(marca_elegida, modelo_elegido, almacenamiento_elegido, archivo)
-    
 
 def modificar_stock(marca: str, modelo: str, almacenamiento: str, archivo: List[List[str]]):
+    '''
+    Modifica el stock de un producto específico en el archivo "stock_celulares.csv".
+
+    Precondiciones:
+    - El archivo "stock_celulares.csv" debe existir y contener datos.
+
+    Postcondiciones:
+    - Modifica el stock del producto especificado en el archivo "stock_celulares.csv".
+    
+    - Imprime un mensaje indicando que el stock se ha modificado exitosamente.
+    '''
     indice_fila = [i for i, elem in enumerate(archivo[1:]) if elem[0] == marca and elem[1] == modelo and elem[4] == almacenamiento]
     if not indice_fila:
         print("No se encontró el celular con los datos proporcionados.")
         return
 
-    indice_fila = indice_fila[0] + 1 
+    indice_fila = indice_fila[0] + 1
     cantidad_actual = int(archivo[indice_fila][2])
-    
+
     print(f"La cantidad actual de {marca} {modelo} con almacenamiento {almacenamiento} es: {cantidad_actual}")
-    
+
     while True:
         opcion = input("¿Desea sumar (+) o restar (-) al stock? Ingrese su elección: ")
         if opcion not in ['+', '-']:
             print("Opción no válida. Ingrese '+' para sumar o '-' para restar.")
             continue
-        
+
         cantidad = int(input("Ingrese la cantidad a modificar: "))
-        
+
         if (opcion == '-' and cantidad > cantidad_actual) or (opcion == '+' and cantidad_actual + cantidad > 50):
             print("No se puede restar más de la cantidad actual o sumar más de 50.")
         else:
             archivo[indice_fila][2] = str(cantidad_actual + cantidad if opcion == '+' else cantidad_actual - cantidad)
             break
-    
+
     with open("stock_celulares.csv", 'w') as archivo_csv:
         for fila in archivo:
             fila_str = ';'.join(fila) + '\n'
             archivo_csv.write(fila_str)
-    
+
     print("Stock modificado exitosamente.")
 #opcion 3 final
-  
+    
 #opcion 4 incio
 def opciones_precio(archivo: List[List[str]]) -> None:
-    marcas, modelos, almacenamientos = obtener_conjuntos_unicos(archivo)
+    '''
+    Permite al usuario modificar el precio de un producto específico en el archivo "stock_celulares.csv".
+
+    Precondiciones:
+    - El archivo "stock_celulares.csv" debe existir y contener datos.
+
+    Postcondiciones:
+    - Modifica el precio de un producto específico en el archivo "stock_celulares.csv" según la elección del usuario.
     
+    - Imprime un mensaje indicando que el precio se ha modificado exitosamente.
+    '''
+    marcas, modelos, almacenamientos = obtener_conjuntos_unicos(archivo)
+
     marca_elegida = input("Ingrese la marca de celular: ").capitalize()
     modelo_elegido = input("Ingrese el modelo de celular: ")
     almacenamiento_elegido = input("Ingrese el almacenamiento del celular: ")
-    
+
     if marca_elegida not in marcas or modelo_elegido not in modelos or almacenamiento_elegido not in almacenamientos:
         print("Los datos ingresados no existen en el archivo.")
         return
-    
-    modificar_precio(marca_elegida, modelo_elegido, almacenamiento_elegido,archivo)
+
+    modificar_precio(marca_elegida, modelo_elegido, almacenamiento_elegido, archivo)
+
 
 def modificar_precio(marca: str, modelo: str, almacenamiento: str, archivo: List[List[str]]):
+    '''
+    Modifica el precio de un producto específico en el archivo "stock_celulares.csv".
+
+    Precondiciones:
+    - El archivo "stock_celulares.csv" debe existir y contener datos.
+
+    Postcondiciones:
+    - Modifica el precio de un producto específico en el archivo "stock_celulares.csv".
+    
+    - Imprime un mensaje indicando que el precio se ha modificado exitosamente.
+    '''
     indice_fila = [i for i, elem in enumerate(archivo[1:]) if elem[0] == marca and elem[1] == modelo and elem[4] == almacenamiento]
     if not indice_fila:
         print("No se encontró el celular con los datos proporcionados.")
         return
 
-    indice_fila = indice_fila[0] + 1 
+    indice_fila = indice_fila[0] + 1
     precio_actual = int(archivo[indice_fila][3].strip())
-    
+
     print(f"El precio actual de {marca} {modelo} con almacenamiento {almacenamiento} es: ${precio_actual}")
-    
+
     while True:
         try:
             nuevo_precio = int(input("Ingrese el nuevo precio del celular: "))
@@ -209,19 +331,28 @@ def modificar_precio(marca: str, modelo: str, almacenamiento: str, archivo: List
                 break
         except ValueError:
             print("Ingrese un número válido.")
-    
+
     with open("stock_celulares.csv", 'w') as archivo_csv:
         for fila in archivo:
             fila_str = ';'.join(fila) + '\n'
             archivo_csv.write(fila_str)
-    
+
     print("Precio modificado exitosamente.")
 #opcion 4 final
-    
+
 #opcion 5 incio
 def presupuesto(archivo: List[List[str]]) -> None:
+    '''
+    Imprime la lista de celulares disponibles de una marca específica dentro del presupuesto del usuario.
+
+    Precondiciones:
+    - El archivo "stock_celulares.csv" debe existir y contener datos.
+
+    Postcondiciones:
+    - Imprime la lista de celulares disponibles de una marca específica dentro del presupuesto del usuario.
+    '''
     precios = set(int(elem[3].strip()) for elem in archivo[1:])
-    
+
     while True:
         try:
             presupuesto_usuario = int(input("Ingrese su presupuesto: "))
@@ -231,9 +362,9 @@ def presupuesto(archivo: List[List[str]]) -> None:
                 break
         except ValueError:
             print("Ingrese un número válido.")
-    
+
     marca_elegida = input("Ingrese la marca de celular que busca: ")
-    
+
     print(f"Celulares disponibles de la marca {marca_elegida} dentro del presupuesto de ${presupuesto_usuario}:")
     for precio in range(presupuesto_usuario, -1, -1):
         if precio in precios:
@@ -244,17 +375,28 @@ def presupuesto(archivo: List[List[str]]) -> None:
 
 #opcion 6 incio
 def compra(archivo: List[List[str]]) -> None:
+    '''
+    Realiza la compra de un celular según la elección del usuario y actualiza el stock en el archivo "stock_celulares.csv".
+
+    Precondiciones:
+    - El archivo "stock_celulares.csv" debe existir y contener datos.
+
+    Postcondiciones:
+    - Realiza la compra de un celular según la elección del usuario.
+    
+    - Actualiza el stock en el archivo "stock_celulares.csv".
+    '''
     if not archivo:
         print("No se encontró el archivo.")
         return
     marcas = sorted(set(linea[0] for linea in archivo[1:]))
     modelos = sorted(set(linea[1] for linea in archivo[1:]))
     almacenamientos = sorted(set(linea[4] for linea in archivo[1:]))
-    
+
     print("Marcas disponibles:")
     for num, marca in enumerate(marcas, start=1):
         print(f"{num}. {marca}")
-    
+
     while True:
         try:
             marca_num = int(input("Ingrese el número de la marca: "))
@@ -265,11 +407,11 @@ def compra(archivo: List[List[str]]) -> None:
                 print("Ingrese un número válido.")
         except ValueError:
             print("Ingrese un número.")
-    
+
     print("\nAlmacenamientos disponibles:")
     for num, almacenamiento in enumerate(almacenamientos, start=1):
         print(f"{num}. {almacenamiento}GB")
-    
+
     while True:
         try:
             almacenamiento_num = int(input("Ingrese el número del almacenamiento: "))
@@ -280,12 +422,12 @@ def compra(archivo: List[List[str]]) -> None:
                 print("Ingrese un número válido.")
         except ValueError:
             print("Ingrese un número.")
-    
+
     print(f"\nModelos disponibles de {marca_elegida} con {almacenamiento_elegido}GB:")
     modelos_disponibles = [linea[1] for linea in archivo[1:] if linea[0] == marca_elegida and linea[4] == almacenamiento_elegido]
     for num, modelo in enumerate(modelos_disponibles, start=1):
         print(f"{num}. {modelo}")
-    
+
     while True:
         try:
             modelo_num = int(input("Ingrese el número del modelo: "))
@@ -296,9 +438,9 @@ def compra(archivo: List[List[str]]) -> None:
                 print("Ingrese un número válido.")
         except ValueError:
             print("Ingrese un número.")
-    
+
     efectivo_o_tarjeta = input("Elige una opción de pago (Efectivo/Tarjeta): ").lower()
-    
+
     if efectivo_o_tarjeta == "efectivo":
         for linea in archivo[1:]:
             if linea[0] == marca_elegida and linea[1] == modelo_elegido and linea[4] == almacenamiento_elegido:
@@ -327,11 +469,24 @@ def compra(archivo: List[List[str]]) -> None:
                 break
     else:
         print("Opción de pago no válida.")
-
-
+        
+        
 def efectivo(marca: str, modelo: str, almacenamiento: str, precio: float) -> None:
-    print(f"El celular {marca} {modelo} de {almacenamiento}GB cuesta ${precio}")
+    '''
+    Realiza una transacción en efectivo para la compra de un celular.
+
+    Precondiciones:
+    - La marca, el modelo y el almacenamiento deben ser cadenas no vacías.
     
+    - El precio debe ser un número positivo mayor que 0.
+
+    Postcondiciones:
+    - Imprime información sobre el celular y realiza una transacción en efectivo.
+    
+    - Imprime la factura con los detalles de la compra.
+    '''
+    print(f"El celular {marca} {modelo} de {almacenamiento}GB cuesta ${precio}")
+
     while True:
         try:
             monto_pagado = float(input("Ingrese con cuánto va a pagar: $"))
@@ -345,9 +500,23 @@ def efectivo(marca: str, modelo: str, almacenamiento: str, precio: float) -> Non
                 print("El monto ingresado es insuficiente.")
         except ValueError:
             print("Ingrese un monto válido.")
-
+            
 def tarjeta(marca: str, modelo: str, almacenamiento: str, precio: float) -> None:
+    '''
+        Realiza una transacción con tarjeta Visa para la compra de un celular.
+
+    Precondiciones:
+    - La marca, el modelo y el almacenamiento deben ser cadenas no vacías.
+    
+    - El precio debe ser un número positivo mayor que 0.
+
+    Postcondiciones:
+    - Realiza una transacción con tarjeta Visa.
+    
+    - Imprime la factura con los detalles de la compra.
+    '''
     print("Procesando pago con tarjeta...")
+
     while True:
         try:
             numero_tarjeta = input("Ingrese el número de la tarjeta Visa: ")
@@ -363,10 +532,8 @@ def tarjeta(marca: str, modelo: str, almacenamiento: str, precio: float) -> None
                 print("Datos de tarjeta o DNI inválidos.")
         except ValueError:
             print("Ingrese un DNI válido.")
-            
-#opcion 6 final
-            
-            
+
+#opcion 6 final           
 def menu()-> None:
    print(
        "--MENU--\n"
@@ -379,6 +546,6 @@ def menu()-> None:
        "0-Salir\n"
        )
 
-
 if __name__ == "__main__":
     print()
+    
